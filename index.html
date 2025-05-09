@@ -30,6 +30,21 @@
   text-rendering: optimizeLegibility;
  }
 
+ @keyframes globalFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+ }
+
+ body {
+  animation: globalFadeIn 1.5s ease-out;
+ }
+
+ section, .container, header, footer {
+  opacity: 0;
+  animation: globalFadeIn 1s ease-out forwards;
+  animation-delay: calc(var(--section-delay, 0) * 0.3s);
+ }
+
  body {
   background-color: var(--background);
   color: var(--text);
@@ -312,20 +327,25 @@
  font-weight: 500;
  }
 
- .team {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
- gap: 2rem;
- }
+ .team-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
 
  .team-member {
-  background-color: var(--white);
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 4px 10px rgba(230, 224, 240, 0.2); /* Light purple-tinted shadow */
   text-align: center;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 250px;
+  flex: 0 0 auto;
   cursor: pointer;
+  background-color: var(--white);
+  box-shadow: 0 4px 10px rgba(230, 224, 240, 0.2); /* Light purple-tinted shadow */
 }
 
 .team-member:hover {
@@ -665,7 +685,7 @@
  <img src="Logo.png" alt="NexFlow Logo" style="height: 180px; width: auto;">
  </div>
  <h1>Fast, Personalized Insulin Insights</h1>
- <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—shifting healthcare from treatment to prevention.</p>
+ <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—the earliest known predictor of Type 2 Diabetes.</p>
  <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center;">
   <a href="#join-waitlist-form-section" class="cta-button">Join Waitlist</a>
   <a href="https://calendly.com/arjundixit3508/30min" class="cta-button" target="_blank">Book a Meeting</a>
@@ -826,40 +846,35 @@
  <h2>Our Team</h2>
  <p>Our team combines expertise in biomedical research, machine learning, and digital health product development to create actionable, real-time tools for metabolic wellness.</p>
  </div>
- <div class="team">
- <div class="team-member">
- <div class="team-photo">
-  <img src="Arjun.jpeg" alt="Arjun Dixit" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
- </div>
- <h3>Arjun Dixit</h3>
- <p>CEO + Co-founder</p>
- <p>Product Lead</p>
- <p>Atlanta, GA</p>
- </div>
- <div class="team-member">
- <div class="team-photo">
-  <img src="Headshot.jpg" alt="Rishi Yedavalli" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
- </div>
- <h3>Rishi Yedavalli</h3>
- <p>CEO + Co-founder</p>
- <p>Technical Lead</p>
- <p>Atlanta, GA</p>
- </div>
- <div class="team-member">
- <div class="team-photo">
-  <img src="Om.jpeg" alt="Om Guin" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
- </div>
- <h3>Om Guin</h3>
- <p>CTO</p>
- <p>Atlanta, GA</p>
- </div>
- <div class="team-member">
- <div class="team-photo">SJ</div>
- <h3>Song Jinseob</h3>
- <p>Web Developer</p>
- <p>Atlanta, GA</p>
- </div>
- </div>
+ <div class="team-grid">
+            <div class="team-member" style="--section-delay: 3">
+                <a href="https://www.linkedin.com/in/rishi-yedavalli-a3a7512a8/" target="_blank" style="text-decoration: none; color: inherit;">
+                    <img src="Headshot.jpg" alt="Rishi Yedavalli" class="team-photo" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                    <h3>Rishi Yedavalli</h3>
+                    <p>Co-Founder & CEO</p>
+                    <p>Technical Lead</p>
+                    <p>Atlanta, GA</p>
+                </a>
+            </div>
+            <div class="team-member" style="--section-delay: 4">
+                <a href="https://www.linkedin.com/in/arjun-dixit-208192285/" target="_blank" style="text-decoration: none; color: inherit;">
+                    <img src="Arjun.jpeg" alt="Arjun Dixit" class="team-photo" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                    <h3>Arjun Dixit</h3>
+                    <p>Co-Founder & CEO</p>
+                    <p>Product Lead</p>
+                    <p>Atlanta, GA</p>
+                </a>
+            </div>
+            <div class="team-member" style="--section-delay: 4">
+                <a href="https://www.linkedin.com/in/om-guin-ab7b64338/" target="_blank" style="text-decoration: none; color: inherit;">
+                    <img src="Om.jpeg" alt="Om Guin" class="team-photo" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                    <h3>Om Guin</h3>
+                    <p>Co-Founder & COO</p>
+                    <p>AI Developer</p>
+                    <p>Atlanta, GA</p>
+                </a>
+            </div>
+        </div>
  </div>
  </section>
 
