@@ -1,843 +1,950 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexFlow - Fast, Personalized, Precise Insulin Insights</title>
-    <link rel="icon" href="logo.png" type="image/png">
-    <style>
-        :root {
-            --primary: #6a0dad;
-            --secondary: #9b59b6;
-            --accent: #8e44ad;
-            --background: #f8f9fa;
-            --text: #333;
-            --light-text: #666;
-            --very-light-text: #888;
-            --white: #fff;
-            --gradient-start: #9b59b6;
-            --gradient-end: #6a0dad;
-            --card-shadow: 0 10px 30px rgba(106, 13, 173, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
-        body {
-            background-color: var(--white);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        header {
-            background-color: var(--white);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .nav {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: var(--light-text);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav a:hover {
-            color: var(--primary);
-        }
-
-        .cta-button {
-            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-            color: var(--white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
-        }
-
-        .hero {
-            padding: 10rem 0 5rem;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)), 
-                        linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--light-text);
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .secondary-button {
-            background-color: var(--white);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            text-decoration: none;
-        }
-
-        .secondary-button:hover {
-            background-color: rgba(0, 112, 243, 0.05);
-        }
-
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .section-title p {
-            color: var(--light-text);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card p {
-            color: var(--light-text);
-        }
-
-        .workflow {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .workflow-step {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .workflow-step:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .workflow-text {
-            flex: 1;
-        }
-
-        .workflow-image {
-            flex: 1;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: var(--card-shadow);
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .placeholder-box {
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light-text);
-            font-weight: 500;
-        }
-
-        .team {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .team-member {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-        }
-
-        .team-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light-text);
-        }
-
-        .team-member h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .team-member p {
-            color: var(--light-text);
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .pricing-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-        }
-
-        .pricing-card.popular {
-            border: 2px solid var(--primary);
-            transform: scale(1.05);
-        }
-
-        .pricing-type {
-            font-size: 1.25rem;
-            color: var(--light-text);
-            margin-bottom: 1rem;
-        }
-
-        .pricing-card h3 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .pricing-card h3 span {
-            font-size: 1rem;
-            color: var(--light-text);
-        }
-
-        .pricing-features {
-            margin: 2rem 0;
-            text-align: left;
-        }
-
-        .pricing-features li {
-            margin-bottom: 0.75rem;
-            list-style: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .pricing-features li::before {
-            content: "✓";
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .cta {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)), 
-                        linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
-            border-radius: 10px;
-            padding: 4rem 2rem;
-            box-shadow: var(--card-shadow);
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            color: var(--light-text);
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-
-        footer {
-            background-color: var(--white);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-links h4 {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            color: var(--text);
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            text-decoration: none;
-            color: var(--light-text);
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .footer-copyright {
-            color: var(--very-light-text);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-social a {
-            color: var(--light-text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-social a:hover {
-            color: var(--primary);
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-
-        .comparison-table th, .comparison-table td {
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .comparison-table th {
-            background-color: rgba(0, 112, 243, 0.05);
-            font-weight: 600;
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table td:first-child {
-            text-align: left;
-            font-weight: 500;
-        }
-
-        .highlight {
-            color: var(--primary);
-        }
-
-        .check {
-            color: #22c55e;
-        }
-
-        .x-mark {
-            color: #ef4444;
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .nav {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .workflow-step, .workflow-step:nth-child(even) {
-                flex-direction: column;
-            }
-
-            .pricing-card.popular {
-                transform: none;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-
-        /* Custom NexFlow Styles */
-        .metrics {
-            display: flex;
-            justify-content: space-around;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .metric {
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .metric-label {
-            color: var(--light-text);
-            font-weight: 500;
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>NexFlow - Fast, Personalized Insulin Insights</title>
+ <link rel="icon" href="logo.png" type="image/png">
+ <style>
+ :root {
+  --primary: #000000; /* Pure black for primary text and elements */
+  --secondary: #333333; /* Dark grey for secondary elements */
+  --accent: #E6E0F0; /* Very soft, light purple hue for subtle accents */
+  --background: #FFFFFF; /* Pure white background */
+  --text: #111111; /* Very dark black for main text */
+  --light-text: #444444; /* Dark grey for secondary text */
+  --very-light-text: #666666; /* Medium grey for less emphasized text */
+  --white: #FFFFFF; /* Pure white */
+  --gradient-start: #000000; /* Black gradient start */
+  --gradient-end: #333333; /* Dark grey gradient end */
+  --card-shadow: 0 6px 15px rgba(230, 224, 240, 0.2); /* Light purple-tinted shadow */
+ }
+
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+ }
+
+ body {
+  background-color: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+ }
+
+ @keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px) rotate(0.5deg); }
+ }
+
+ @keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px) rotate(-0.3deg); }
+ }
+
+ @keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+ }
+
+ @keyframes subtleWave {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-2px) rotate(0.5deg); }
+ }
+
+ @keyframes softPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+ }
+
+ @keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+ }
+
+ h1, h2, h3, h4, h5, h6 {
+ font-weight: 800;
+ letter-spacing: -0.04em;
+ }
+
+ h1 {
+ font-size: 3.75rem;
+ line-height: 1.1;
+ }
+
+ h2 {
+ font-size: 2.5rem;
+ }
+
+ p {
+ margin-bottom: 1rem;
+ }
+
+ .container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0 1rem;
+ }
+
+ header {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background-color: var(--white);
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+ border-bottom: none; /* Remove border */
+ }
+
+ .header-content {
+ display: flex;
+ justify-content: center; /* Center the navigation */
+ align-items: center;
+ padding: 1rem 0;
+ }
+
+ .logo {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: var(--primary);
+ text-decoration: none;
+ }
+
+ .nav {
+ display: flex;
+ gap: 1.5rem; /* Add some space between nav items */
+ }
+
+ .nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav a {
+  color: var(--light-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.nav a:hover {
+  color: var(--primary);
+  transform: scale(1.05);
+  background-color: rgba(230, 224, 240, 0.3);
+}
+
+ .cta-button {
+ background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+ color: var(--white);
+ border: none;
+ padding: 0.75rem 1.5rem;
+ border-radius: 30px;
+ font-weight: 600;
+ cursor: pointer;
+ transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+ text-decoration: none;
+ box-shadow: 0 4px 10px rgba(230, 224, 240, 0.2); /* Light purple-tinted shadow */
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(230, 224, 240, 0.3); /* Slightly more pronounced shadow */
+} 
+
+ .hero {
+ padding: 7rem 0 3.5rem; /* Reduced padding */
+ background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)), 
+ linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+ text-align: center;
+ }
+
+ .hero h1 {
+ background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end), #8A4FFF);
+ background-size: 300% auto;
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ animation: textShimmer 4s ease-in-out infinite;
+ margin-bottom: 1.5rem;
+ }
+
+ .hero p {
+ font-size: 1.25rem;
+ color: var(--light-text);
+ max-width: 800px;
+ margin: 0 auto 2rem;
+ }
+
+ .hero-buttons {
+ display: flex;
+ gap: 1rem;
+ justify-content: center;
+}
+
+.hero-buttons .cta-button {
+  animation: float 2s ease-in-out infinite;
+}
+
+ .section {
+ padding: 3.5rem 0; /* Reduced padding */
+ }
+
+ .section-title {
+ text-align: center;
+ margin-bottom: 2rem; /* Reduced margin */
+ }
+
+ .section-title h2 {
+ font-size: 2.5rem;
+ margin-bottom: 1rem;
+ color: var(--text);
+ }
+
+ .section-title p {
+ color: var(--light-text);
+ max-width: 700px;
+ margin: 0 auto;
+ }
+
+ .features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.feature-card {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(230, 224, 240, 0.2);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.feature-card:hover img {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.feature-card:hover {
+  animation: bounce 0.5s ease-in-out;
+  box-shadow: 0 6px 15px rgba(230, 224, 240, 0.3);
+ } 
+
+ .feature-icon {
+ font-size: 2rem;
+ color: var(--primary);
+ margin-bottom: 1rem;
+ }
+
+ .feature-card h3 {
+ font-size: 1.5rem;
+ margin-bottom: 1rem;
+ }
+
+ .feature-card p {
+ color: var(--light-text);
+ }
+
+ .workflow {
+ display: flex;
+ flex-direction: column;
+ gap: 3rem;
+ }
+
+ .workflow-step {
+ display: flex;
+ align-items: center;
+ gap: 2rem;
+ }
+
+ .workflow-step:nth-child(even) {
+ flex-direction: row-reverse;
+ }
+
+ .workflow-text {
+ flex: 1;
+ }
+
+ .workflow-image {
+ flex: 1;
+ background-color: var(--white);
+ border-radius: 10px;
+ box-shadow: var(--card-shadow);
+ height: 300px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+
+ .placeholder-box {
+ background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+ width: 100%;
+ height: 100%;
+ border-radius: 10px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--light-text);
+ font-weight: 500;
+ }
+
+ .team {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 2rem;
+ }
+
+ .team-member {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(230, 224, 240, 0.2); /* Light purple-tinted shadow */
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.team-member:hover {
+  animation: bounce 0.5s ease-in-out;
+  box-shadow: 0 6px 15px rgba(230, 224, 240, 0.3); /* Slightly more pronounced shadow */
+} 
+
+ .team-photo {
+ width: 150px;
+ height: 150px;
+ border-radius: 50%;
+ background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+ margin: 0 auto 1.5rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--light-text);
+ }
+
+ .team-member h3 {
+ font-size: 1.25rem;
+ margin-bottom: 0.5rem;
+ }
+
+ .team-member p {
+ color: var(--light-text);
+ margin-bottom: 0.5rem;
+ }
+
+ .pricing {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 2rem;
+ }
+
+ .pricing-card {
+ background-color: var(--white);
+ border-radius: 10px;
+ padding: 2rem;
+ box-shadow: var(--card-shadow);
+ text-align: center;
+ }
+
+ .pricing-card.popular {
+ border: 2px solid var(--primary);
+ transform: scale(1.05);
+ }
+
+ .pricing-type {
+ font-size: 1.25rem;
+ color: var(--light-text);
+ margin-bottom: 1rem;
+ }
+
+ .pricing-card h3 {
+ font-size: 2.5rem;
+ margin-bottom: 1rem;
+ }
+
+ .pricing-card h3 span {
+ font-size: 1rem;
+ color: var(--light-text);
+ }
+
+ .pricing-features {
+ margin: 2rem 0;
+ text-align: left;
+ }
+
+ .pricing-features li {
+ margin-bottom: 0.75rem;
+ list-style: none;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ }
+
+ .pricing-features li::before {
+ content: "✓";
+ color: var(--primary);
+ font-weight: bold;
+ }
+
+ .cta {
+ text-align: center;
+ background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)), 
+ linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+ border-radius: 10px;
+ padding: 4rem 2rem;
+ box-shadow: var(--card-shadow);
+ }
+
+ .cta h2 {
+ font-size: 2.5rem;
+ margin-bottom: 1.5rem;
+ }
+
+ .cta p {
+ color: var(--light-text);
+ max-width: 700px;
+ margin: 0 auto 2rem;
+ }
+
+ footer {
+ background-color: var(--white);
+ padding: 4rem 0 2rem;
+ }
+
+ .footer-content {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 2rem;
+ margin-bottom: 3rem;
+ }
+
+ .footer-logo {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: var(--primary);
+ margin-bottom: 1rem;
+ }
+
+ .footer-links h4 {
+ font-size: 1.25rem;
+ margin-bottom: 1.5rem;
+ color: var(--text);
+ }
+
+ .footer-links ul {
+ list-style: none;
+ }
+
+ .footer-links li {
+ margin-bottom: 0.75rem;
+ }
+
+ .footer-links a {
+ text-decoration: none;
+ color: var(--light-text);
+ transition: color 0.3s;
+ }
+
+ .footer-links a:hover {
+ color: var(--primary);
+ }
+
+ .footer-bottom {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding-top: 2rem;
+ border-top: 1px solid rgba(0, 0, 0, 0.05);
+ }
+
+ .footer-copyright {
+ color: var(--very-light-text);
+ }
+
+ .footer-social {
+ display: flex;
+ gap: 1rem;
+ }
+
+ .footer-social a {
+ color: var(--light-text);
+ text-decoration: none;
+ transition: color 0.3s;
+ }
+
+ .footer-social a:hover {
+ color: var(--primary);
+ }
+
+ .comparison-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin: 2rem 0;
+ background-color: var(--white);
+ border-radius: 10px;
+ overflow: hidden;
+ box-shadow: var(--card-shadow);
+ }
+
+ .comparison-table th, .comparison-table td {
+ padding: 1rem;
+ text-align: center;
+ border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+ }
+
+ .comparison-table th {
+ background-color: rgba(0, 112, 243, 0.05);
+ font-weight: 600;
+ }
+
+ .comparison-table tr:last-child td {
+ border-bottom: none;
+ }
+
+ .comparison-table td:first-child {
+ text-align: left;
+ font-weight: 500;
+ }
+
+ .highlight {
+ color: var(--primary);
+ }
+
+ .check {
+ color: #22c55e;
+ }
+
+ .x-mark {
+ color: #ef4444;
+ }
+
+ @media (max-width: 768px) {
+ .header-content {
+ flex-direction: column;
+ gap: 1rem;
+ text-align: center;
+ }
+
+ .nav {
+ flex-direction: column;
+ gap: 1rem;
+ }
+
+ .hero h1 {
+ font-size: 2.5rem;
+ }
+
+ .workflow-step, .workflow-step:nth-child(even) {
+ flex-direction: column;
+ }
+
+ .pricing-card.popular {
+ transform: none;
+ }
+
+ .footer-bottom {
+ flex-direction: column;
+ gap: 1rem;
+ text-align: center;
+ }
+ }
+
+ /* Custom NexFlow Styles */
+ .metrics {
+ display: flex;
+  justify-content: center;
+ margin: 2rem auto; 
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: fit-content;
+ }
+
+ .metric {
+ text-align: center;
+  width: 220px; /* Ensure metric items have equal width */
+ }
+
+ .metric-value {
+ font-size: 3rem;
+ font-weight: 700;
+ background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ margin-bottom: 0.5rem;
+ }
+
+ .metric-label {
+ color: var(--light-text);
+ font-weight: 500;
+ }
+ 
+/* Waitlist Form Styles */
+#join-waitlist-form-section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+}
+
+.waitlist-form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.waitlist-form-input,
+.waitlist-form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.waitlist-form-textarea {
+  min-height: 120px;
+}
+
+.waitlist-form .cta-button {
+  width: 100%;
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                <div style="display: flex; align-items: center;">
-                    <img src="logo.png" alt="NexFlow Logo" style="height: 40px; width: auto;">
-                    <span style="margin-left: 10px;">NexFlow</span>
-                </div>
-            </a>
-                <nav class="nav">
-                    <a href="#features">Features</a>
-                    <a href="#how-it-works">How It Works</a>
-                    <a href="#comparison">Comparison</a>
-                    <a href="#team">Team</a>
-                </nav>
-                <a href="#get-started" class="cta-button">Get Started</a>
-            </div>
-        </div>
-    </header>
+ <header>
+ <div class="container">
+ <div class="header-content">
+<nav class="nav">
+ <a href="#features">Features</a>
+ <a href="#how-it-works">How It Works</a>
+ <a href="#comparison">Comparison</a>
+ <a href="#team">Team</a>
+ </nav>
+ </div>
+ </div>
+ </div>
+</header>
 
-    <section class="hero">
-        <div class="container">
-            <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
-                <img src="logo.png" alt="NexFlow Logo" style="height: 180px; width: auto;">
-            </div>
-            <h1>Fast, Personalized, Precise Insulin Insights</h1>
-            <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—shifting healthcare from treatment to prevention.</p>
-            <div class="hero-buttons">
-                <a href="#get-started" class="cta-button">Get Started</a>
-                <a href="#learn-more" class="secondary-button">Learn More</a>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+ <div class="container">
+ <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+ <img src="logo.png" alt="NexFlow Logo" style="height: 180px; width: auto;">
+ </div>
+ <h1>Fast, Personalized Insulin Insights</h1>
+ <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—shifting healthcare from treatment to prevention.</p>
+ <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center;">
+  <a href="#join-waitlist-form-section" class="cta-button">Join Waitlist</a>
+  <a href="https://calendly.com/arjundixit3508/30min" class="cta-button" target="_blank">Book a Meeting</a>
+</div>
+ </div>
+ </section>
 
-    <section class="section" id="problem">
-        <div class="container">
-            <div class="section-title">
-                <h2>The Problem</h2>
-                <p>The current primary method for measuring Insulin Resistance Levels - HOMA-IR - only occurs at a single point of time, with the patient undergoing strenuous fasting and measurements for the level. This measurement isn't taken frequently, even though the output (Insulin Resistance Level) is the single most early predictor of Type 2 Diabetes.</p>
-            </div>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-value">1 in 3</div>
-                    <div class="metric-label">U.S. adults have prediabetes</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">98M+</div>
-                    <div class="metric-label">Americans with prediabetes</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">541M</div>
-                    <div class="metric-label">Adults globally with impaired glucose tolerance</div>
-                </div>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="problem">
+ <div class="container">
+ <div class="section-title">
+ <h2>The Problem</h2>
+ </div>
+ <div class="metrics">
+ <div class="metric">
+ <div class="metric-value">1 in 3</div>
+ <div class="metric-label">U.S. adults have prediabetes</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">98M+</div>
+ <div class="metric-label">Americans with prediabetes</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">541M</div>
+ <div class="metric-label">Adults globally with impaired glucose tolerance</div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-    <section class="section" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Solution</h2>
-                <p>NexFlow offers real-time insulin resistance monitoring through non-invasive methods, making early intervention accessible and affordable.</p>
-            </div>
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>IRScore</h3>
-                    <p>A real-time, AI-generated score from 0 to 100 that quantifies your risk of insulin resistance. Simply input lifestyle and biomarker data and receive an easy-to-understand score that updates as new data is logged.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Trajectory Panel</h3>
-                    <p>Visualize how your IRScore evolves over time, helping you see the effects of specific habits. Track daily behaviors and biomarker updates to identify patterns, measure progress, and course-correct in real-time.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Recommendation System</h3>
-                    <p>Receive personalized, science-backed suggestions based on your lifestyle and biomarker data. Each tip includes a projected IRScore gain, helping you take clear, goal-driven action.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="features">
+ <div class="container">
+ <div class="section-title">
+ <h2>Our Solution</h2>
+ <p>NexFlow offers real-time insulin resistance monitoring through non-invasive methods, making early intervention accessible and affordable.</p>
+ </div>
+  <div class="features">
+  <div class="feature-card">
+  <div class="feature-icon"></div>
+  <h3>IRScore</h3>
+  <p>A real-time, AI-generated score from 0 to 100 that quantifies your risk of insulin resistance. Simply input lifestyle and biomarker data and receive an easy-to-understand score that updates as new data is logged.</p>
+  </div>
+  <div class="feature-card">
+  <div class="feature-icon"></div>
+  <h3>Trajectory Panel</h3>
+  <p>Visualize how your IRScore evolves over time, helping you see the effects of specific habits. Track daily behaviors and biomarker updates to identify patterns, measure progress, and course-correct in real-time.</p>
+  </div>
+  <div class="feature-card">
+  <div class="feature-icon"></div>
+  <h3>Recommendation System</h3>
+  <p>Receive personalized, science-backed suggestions based on your lifestyle and biomarker data. Each tip includes a projected IRScore gain, helping you take clear, goal-driven action.</p>
+  </div>
+ </div>
+ </div>
+ </section>
 
-    <section class="section" id="how-it-works">
-        <div class="container">
-            <div class="section-title">
-                <h2>How It Works</h2>
-                <p>NexFlow transforms complex health data into actionable insights to help you prevent and reverse insulin resistance.</p>
-            </div>
-            <div class="workflow">
-                <div class="workflow-step">
-                    <div class="workflow-text">
-                        <h3>Input Your Data</h3>
-                        <p>Log your lifestyle factors (sleep, diet, activity) and biomarker data (glucose, insulin levels) through our simple interface. Connect with your existing health apps and wearables for seamless data integration.</p>
-                    </div>
-                    <div class="workflow-image">
-                        <div class="placeholder-box">Data Input Interface</div>
-                    </div>
-                </div>
-                <div class="workflow-step">
-                    <div class="workflow-text">
-                        <h3>Get Your IRScore</h3>
-                        <p>Our AI algorithm processes your data to generate a personalized IRScore between 0-100, indicating your current insulin resistance risk level. The score updates in real-time as new data is logged.</p>
-                    </div>
-                    <div class="workflow-image">
-                        <div class="placeholder-box">IRScore Dashboard</div>
-                    </div>
-                </div>
-                <div class="workflow-step">
-                    <div class="workflow-text">
-                        <h3>Track Progress & Receive Recommendations</h3>
-                        <p>Monitor your IRScore trajectory over time and receive personalized recommendations to improve your metabolic health. Each suggestion includes a projected impact on your IRScore.</p>
-                    </div>
-                    <div class="workflow-image">
-                        <div class="placeholder-box">Trajectory & Recommendations</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="how-it-works">
+ <div class="container">
+  <div class="section-title">
+   <h2>How It Works</h2>
+  </div>
+  <div class="features">
+  <div class="feature-card">
+  <img src="Interface.png" alt="Data Input Interface" style="width: 100%; height: auto; border-radius: 10px; object-fit: cover;">
+  <h3>Input Your Data</h3>
+  <p>Log your lifestyle factors (sleep, diet, activity) and biomarker data (glucose, insulin levels) through our simple interface. Connect with your existing health apps and wearables for seamless data integration.</p>
+  </div>
+  <div class="feature-card">
+  <img src="Score.png" alt="IRScore Dashboard" style="width: 100%; height: auto; border-radius: 10px; object-fit: cover;">
+  <h3>Get Your IRScore</h3>
+  <p>Our AI algorithm processes your data to generate a personalized IRScore between 0-100, indicating your current insulin resistance risk level. The score updates in real-time as new data is logged.</p>
+  </div>
+  <div class="feature-card">
+  <img src="Panel.png" alt="Trajectory & Recommendations" style="width: 100%; height: auto; border-radius: 10px; object-fit: cover;">
+  <h3>Track Progress & Receive Recommendations</h3>
+  <p>Monitor your IRScore trajectory over time and receive personalized recommendations to improve your metabolic health. Each suggestion includes a projected impact on your IRScore.</p>
+ </div>
+ </div>
+ </section>
 
-    <section class="section" id="comparison">
-        <div class="container">
-            <div class="section-title">
-                <h2>Competitive Advantage</h2>
-                <p>Unlike competitors that rely on expensive and invasive methods for diabetes management such as CGMs, NexFlow provides real-time insulin resistance estimates using non-invasive lifestyle and biomarker data.</p>
-            </div>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Levels</th>
-                        <th>Signos</th>
-                        <th>January AI</th>
-                        <th>NexFlow</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Real-Time IR Monitoring</td>
-                        <td class="x-mark">✗</td>
-                        <td class="x-mark">✗</td>
-                        <td class="x-mark">✗</td>
-                        <td class="check">✓</td>
-                    </tr>
-                    <tr>
-                        <td>Non-Invasive & Accessible</td>
-                        <td class="x-mark">✗</td>
-                        <td class="x-mark">✗</td>
-                        <td class="check">✓</td>
-                        <td class="check">✓</td>
-                    </tr>
-                    <tr>
-                        <td>Predictive Lifestyle Modeling</td>
-                        <td class="x-mark">✗</td>
-                        <td class="check">✓</td>
-                        <td class="check">✓</td>
-                        <td class="check">✓</td>
-                    </tr>
-                    <tr>
-                        <td>Personalized Pathways</td>
-                        <td class="x-mark">✗</td>
-                        <td class="check">✓</td>
-                        <td class="check">✓</td>
-                        <td class="check">✓</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+ </section>
 
-    <section class="section" id="market">
-        <div class="container">
-            <div class="section-title">
-                <h2>Market Opportunity</h2>
-                <p>NexFlow addresses a massive and growing market of individuals at risk for metabolic disorders.</p>
-            </div>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="metric-value">$20M</div>
-                    <div class="metric-label">Target Market</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">376M</div>
-                    <div class="metric-label">Serviceable Addressable Market</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value">940M</div>
-                    <div class="metric-label">Total Addressable Market</div>
-                </div>
-            </div>
-            <div style="margin-top: 3rem;">
-                <h3>Target Market</h3>
-                <p>NexFlow targets health-conscious adults aged 25–55 who are at risk of developing type 2 diabetes. These individuals actively use wearable technology and digital health apps to monitor and improve their health.</p>
-                
-                <h3>Serviceable Addressable Market (SAM)</h3>
-                <p>In the U.S., an estimated 98 million adults have prediabetes, which is more than 1 in 3 adults. A large percent of these individuals are unaware they have prediabetes.</p>
-                
-                <h3>Total Addressable Market (TAM)</h3>
-                <p>An estimated 541 million adults have impaired glucose tolerance (IGT). The number is projected to rise to 730 million by 2045.</p>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="comparison">
+ <div class="container">
+ <div class="section-title">
+ <h2>Competitive Advantage</h2>
+ <p>Unlike competitors that rely on expensive and invasive methods for diabetes management such as CGMs, NexFlow provides real-time insulin resistance estimates using non-invasive lifestyle and biomarker data.</p>
+ </div>
+ <table class="comparison-table">
+ <thead>
+ <tr>
+ <th>Feature</th>
+ <th>Levels</th>
+ <th>Signos</th>
+ <th>January AI</th>
+ <th>NexFlow</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Real-Time IR Monitoring</td>
+ <td class="x-mark">✗</td>
+ <td class="x-mark">✗</td>
+ <td class="x-mark">✗</td>
+ <td class="check">✓</td>
+ </tr>
+ <tr>
+ <td>Non-Invasive & Accessible</td>
+ <td class="x-mark">✗</td>
+ <td class="x-mark">✗</td>
+ <td class="check">✓</td>
+ <td class="check">✓</td>
+ </tr>
+ <tr>
+ <td>Predictive Lifestyle Modeling</td>
+ <td class="x-mark">✗</td>
+ <td class="check">✓</td>
+ <td class="check">✓</td>
+ <td class="check">✓</td>
+ </tr>
+ <tr>
+ <td>Personalized Pathways</td>
+ <td class="x-mark">✗</td>
+ <td class="check">✓</td>
+ <td class="check">✓</td>
+ <td class="check">✓</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </section>
 
-    <section class="section" id="team">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Team</h2>
-                <p>Our team combines expertise in biomedical research, machine learning, and digital health product development to create actionable, real-time tools for metabolic wellness.</p>
-            </div>
-            <div class="team">
-                <div class="team-member">
-                    <div class="team-photo">AD</div>
-                    <h3>Arjun Dixit</h3>
-                    <p>CEO + Co-founder</p>
-                    <p>Product Lead</p>
-                    <p>Atlanta, GA</p>
-                </div>
-                <div class="team-member">
-                    <div class="team-photo">RY</div>
-                    <h3>Rishi Yedavalli</h3>
-                    <p>CEO + Co-founder</p>
-                    <p>Technical Lead</p>
-                    <p>Atlanta, GA</p>
-                </div>
-                <div class="team-member">
-                    <div class="team-photo">OG</div>
-                    <h3>Om Guin</h3>
-                    <p>CTO</p>
-                    <p>Atlanta, GA</p>
-                </div>
-                <div class="team-member">
-                    <div class="team-photo">D</div>
-                    <h3>David</h3>
-                    <p>App Development</p>
-                    <p>Atlanta, GA</p>
-                </div>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="market">
+ <div class="container">
+ <div class="section-title">
+ <h2>Market Opportunity</h2>
+ <p>NexFlow addresses a massive and growing market of individuals at risk for metabolic disorders.</p>
+ </div>
+ <div class="metrics">
+ <div class="metric">
+ <div class="metric-value">$20M</div>
+ <div class="metric-label">Target Market</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">$376M</div>
+ <div class="metric-label">Serviceable Addressable Market</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">$940M</div>
+ <div class="metric-label">Total Addressable Market</div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-    <section class="section" id="get-started">
-        <div class="container">
-            <div class="cta">
-                <h2>Ready to Take Control of Your Metabolic Health?</h2>
-                <p>Join NexFlow today and get ahead of insulin resistance with real-time, personalized insights.</p>
-                <a href="#" class="cta-button">Get Started Now</a>
-            </div>
-        </div>
-    </section>
+ <section class="section" id="team">
+ <div class="container">
+ <div class="section-title">
+ <h2>Our Team</h2>
+ <p>Our team combines expertise in biomedical research, machine learning, and digital health product development to create actionable, real-time tools for metabolic wellness.</p>
+ </div>
+ <div class="team">
+ <div class="team-member">
+ <div class="team-photo">
+  <img src="Arjun.jpeg" alt="Arjun Dixit" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+ </div>
+ <h3>Arjun Dixit</h3>
+ <p>CEO + Co-founder</p>
+ <p>Product Lead</p>
+ <p>Atlanta, GA</p>
+ </div>
+ <div class="team-member">
+ <div class="team-photo">
+  <img src="Headshot.jpg" alt="Rishi Yedavalli" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+ </div>
+ <h3>Rishi Yedavalli</h3>
+ <p>CEO + Co-founder</p>
+ <p>Technical Lead</p>
+ <p>Atlanta, GA</p>
+ </div>
+ <div class="team-member">
+ <div class="team-photo">
+  <img src="Om.jpeg" alt="Om Guin" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+ </div>
+ <h3>Om Guin</h3>
+ <p>CTO</p>
+ <p>Atlanta, GA</p>
+ </div>
+ <div class="team-member">
+ <div class="team-photo">SJ</div>
+ <h3>Song Jinseob</h3>
+ <p>Web Developer</p>
+ <p>Atlanta, GA</p>
+ </div>
+ </div>
+ </div>
+ </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div>
-                    <div class="footer-logo">
-                    <div style="display: flex; align-items: center;">
-                        <img src="logo.png" alt="NexFlow Logo" style="height: 30px; width: auto;">
-                        <span style="margin-left: 10px;">NexFlow</span>
-                    </div>
-                </div>
-                    <p>Fast, Personalized, Precise Insulin Insights</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Press</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Product</h4>
-                    <ul>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Integrations</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Support</a></li>
-                        <li><a href="#">Community</a></li>
-                        <li><a href="#">Research</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:nexus@nex-flow.online">nexus@nex-flow.online</a></li>
-                        <li><a href="#">Atlanta, GA</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    © 2025 NexFlow. All rights reserved.
-                </div>
-                <div class="footer-social">
-                    <a href="#">Twitter</a>
-                    <a href="#">LinkedIn</a>
-                    <a href="#">Instagram</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+ 
+<section class="section" id="join-waitlist-form-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Join Our Waitlist</h2>
+      <p>Be the first to know when NexFlow launches and get exclusive early access.</p>
+    </div>
+    <form action="https://submit-form.com/K9AikUH27" method="POST" class="waitlist-form">
+      <div>
+        <label for="form-name" class="waitlist-form-label">Name</label>
+        <input type="text" id="form-name" name="name" placeholder="Your Name" required="" class="waitlist-form-input">
+      </div>
+      <div>
+        <label for="form-email" class="waitlist-form-label">Email</label>
+        <input type="email" id="form-email" name="email" placeholder="Your Email" required="" class="waitlist-form-input">
+      </div>
+      <div>
+        <label for="form-message" class="waitlist-form-label">Message (Optional)</label>
+        <textarea id="form-message" name="message" placeholder="Tell us a bit about why you're interested (optional)" class="waitlist-form-textarea"></textarea>
+      </div>
+      <button type="submit" class="cta-button">Submit</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+ <div class="container">
+ <div class="footer-content">
+ <div>
+ <div class="footer-logo">
+ <div style="display: flex; align-items: center;">
+ <img src="logo.png" alt="NexFlow Logo" style="height: 30px; width: auto;">
+ <span style="margin-left: 10px;">NexFlow</span>
+ </div>
+ </div>
+ <p>Fast, Personalized, Precise Insulin Insights</p>
+ </div>
+ <div class="footer-links">
+ <h4>Company</h4>
+ <ul>
+ <li><a href="#">About Us</a></li>
+ <li><a href="#">Careers</a></li>
+ <li><a href="#">Blog</a></li>
+ <li><a href="#">Press</a></li>
+ </ul>
+ </div>
+ <div class="footer-links">
+ <h4>Product</h4>
+ <ul>
+ <li><a href="#">Features</a></li>
+ <li><a href="#">Pricing</a></li>
+ <li><a href="#">Integrations</a></li>
+ <li><a href="#">FAQ</a></li>
+ </ul>
+ </div>
+ <div class="footer-links">
+ <h4>Resources</h4>
+ <ul>
+ <li><a href="#">Documentation</a></li>
+ <li><a href="#">Support</a></li>
+ <li><a href="#">Community</a></li>
+ <li><a href="#">Research</a></li>
+ </ul>
+ </div>
+ <div class="footer-links">
+ <h4>Contact</h4>
+ <ul>
+ <li><a href="mailto:nexus@nex-flow.online">nexus@nex-flow.online</a></li>
+ <li><a href="#">Atlanta, GA</a></li>
+ </ul>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <div class="footer-copyright">
+ © 2025 NexFlow. All rights reserved.
+ </div>
+ <div class="footer-social">
+ <a href="#">Twitter</a>
+ <a href="#">LinkedIn</a>
+ <a href="#">Instagram</a>
+ </div>
+ </div>
+ </div>
+ </footer>
 </html>
