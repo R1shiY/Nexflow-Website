@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>NexFlow - Fast, Personalized Insulin Insights</title>
+ <title>NexFlow - Accurate, Personalized Diabetes Insights</title>
  <link rel="icon" href="Logo.png" type="image/png">
  <style>
  :root {
@@ -28,21 +28,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
- }
-
- @keyframes globalFadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
- }
-
- body {
-  animation: globalFadeIn 1.5s ease-out;
- }
-
- section, .container, header, footer {
-  opacity: 0;
-  animation: globalFadeIn 1s ease-out forwards;
-  animation-delay: calc(var(--section-delay, 0) * 0.3s);
  }
 
  body {
@@ -78,11 +63,6 @@
  @keyframes softPulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.02); }
- }
-
- @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
  }
 
  h1, h2, h3, h4, h5, h6 {
@@ -662,6 +642,151 @@
 .waitlist-form .cta-button {
   width: 100%;
 }
+
+/* FAQ Accordion Styling */
+.faqs-section-wrapper {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.faqs-columns {
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.faq-col {
+  flex: 1 1 420px;
+  min-width: 340px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: none;
+}
+.section-title {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+.faq-list {
+  margin: 0 auto;
+}
+.faq-item {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(230, 224, 240, 0.12);
+  margin-bottom: 1.5rem;
+  background: var(--white);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.faq-item.open {
+  box-shadow: 0 8px 24px rgba(230, 224, 240, 0.18);
+}
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  text-align: left;
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 1.35rem 1.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+.faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 1.75rem;
+  font-size: 1.5rem;
+  color: var(--secondary);
+  transition: transform 0.3s;
+}
+.faq-item.open .faq-question::after {
+  content: '-';
+  transform: rotate(180deg);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--text);
+  padding: 0 1.75rem;
+  font-size: 1.04rem;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s;
+}
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 1rem 1.75rem 1.5rem 1.75rem;
+}
+@media (max-width: 1100px) {
+  .faqs-columns {
+    flex-direction: column;
+    gap: 3rem;
+    align-items: stretch;
+    max-width: 700px;
+  }
+  .faq-col {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+@media (max-width: 700px) {
+  .faqs-section-wrapper {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .faqs-columns {
+    gap: 2rem;
+    max-width: 100%;
+  }
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
+  .faq-question {
+    font-size: 1rem;
+    padding: 1rem 1rem;
+  }
+  .faq-answer {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+  .faq-item.open .faq-answer {
+    padding: 0.75rem 1rem 1rem 1rem;
+  }
+}
+
+/* Footer Centering and Spacing */
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  text-align: center;
+  flex-wrap: wrap;
+  padding: 2.5rem 0 2rem 0;
+  border-top: 1px solid #eee;
+  margin-top: 3rem;
+}
+.footer-logo {
+  margin-bottom: 0.5rem;
+}
+.footer-links ul {
+  margin-top: 0.5rem;
+}
+@media (max-width: 700px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 0 1rem 0;
+    margin-top: 2rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -673,6 +798,7 @@
  <a href="#how-it-works">How It Works</a>
  <a href="#comparison">Comparison</a>
  <a href="#team">Team</a>
+ <a href="b2b.html">Collaborate</a>
  </nav>
  </div>
  </div>
@@ -684,7 +810,7 @@
  <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
  <img src="Logo.png" alt="NexFlow Logo" style="height: 180px; width: auto;">
  </div>
- <h1>Fast, Personalized Insulin Insights</h1>
+ <h1>Accurate, Personalized Diabetes Insights</h1>
  <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—the earliest known predictor of Type 2 Diabetes.</p>
  <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center;">
   <a href="#join-waitlist-form-section" class="cta-button">Join Waitlist</a>
@@ -903,63 +1029,123 @@
   </div>
 </section>
 
+<!-- FAQ Sections Side by Side -->
+<section class="section faqs-section-wrapper" id="faqs-section-wrapper">
+  <div class="container faqs-columns">
+    <div class="faq-col">
+      <div class="section-title">
+        <h2>Diabetes FAQs</h2>
+        <p>Answers to common questions about diabetes, insulin resistance, and metabolic health.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">What's the difference between diabetes and insulin resistance?</button>
+          <div class="faq-answer">
+            <p>Insulin resistance happens when the body stops responding to insulin effectively, often years before Type 2 diabetes develops. NexFlow detects and tracks insulin resistance early—helping you take action before it becomes diabetes.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is prediabetes the same as diabetes?</button>
+          <div class="faq-answer">
+            <p>No—prediabetes means your blood sugar is higher than normal but not yet in the diabetes range. NexFlow helps reverse prediabetes by identifying early warning signs and providing actionable lifestyle guidance.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Diabetes vs. hypoglycemia: What's the difference?</button>
+          <div class="faq-answer">
+            <p>Diabetes is chronic high blood sugar; hypoglycemia is low blood sugar. While both involve blood sugar issues, they're opposite conditions. NexFlow helps detect patterns that may signal risk for either.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Can diabetes and high blood pressure be connected?</button>
+          <div class="faq-answer">
+            <p>Yes. People with diabetes often have high blood pressure, which increases the risk of heart disease and stroke. NexFlow tracks metabolic health trends to help you manage both.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What are diabetes-like symptoms I should watch for?</button>
+          <div class="faq-answer">
+            <p>Early symptoms include fatigue, frequent urination, increased thirst, and blurry vision. NexFlow helps differentiate these signs and guides you toward preventive steps if you're at risk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="faq-col">
+      <div class="section-title">
+        <h2>NexFlow FAQs</h2>
+        <p>Find answers to common questions about NexFlow's platform, integrations, and partnerships.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">What is NexFlow and how does it work?</button>
+          <div class="faq-answer">
+            <p>NexFlow is an AI-powered platform that provides real-time, personalized insights into insulin resistance and metabolic health. By integrating lifestyle, biomarker, and device data, NexFlow delivers actionable recommendations and risk scores to help users and organizations manage diabetes proactively.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Who can benefit from NexFlow?</button>
+          <div class="faq-answer">
+            <p>NexFlow is designed for individuals at risk for diabetes, healthcare providers, clinics, and organizations seeking to improve metabolic health outcomes through advanced analytics and seamless integrations.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What integrations are available?</button>
+          <div class="faq-answer">
+            <p>NexFlow supports integration with EHR systems, medical devices (such as CGMs), lab services, and third-party health apps via secure APIs and custom solutions.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is my data secure with NexFlow?</button>
+          <div class="faq-answer">
+            <p>Yes. NexFlow uses industry-standard encryption and follows best practices for data privacy and security, ensuring all user and partner data is protected.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How can my organization partner with NexFlow?</button>
+          <div class="faq-answer">
+            <p>Visit the Collaborate page or contact us directly to discuss partnership opportunities, integration options, and custom solutions for your organization.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const item = this.parentElement;
+    item.classList.toggle('open');
+    // Close others in the same column
+    this.closest('.faq-list').querySelectorAll('.faq-item').forEach(other => {
+      if (other !== item) other.classList.remove('open');
+    });
+  });
+});
+</script>
+
 <footer>
  <div class="container">
- <div class="footer-content">
- <div>
- <div class="footer-logo">
- <div style="display: flex; align-items: center;">
- <img src="Logo.png" alt="NexFlow Logo" style="height: 30px; width: auto;">
- <span style="margin-left: 10px;">NexFlow</span>
+   <div class="footer-content" style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 5rem; text-align: center; flex-wrap: wrap; padding: 2.5rem 0 2rem 0; border-top: 1px solid #eee; margin-top: 3rem;">
+     <div>
+       <div class="footer-logo">
+         <div style="display: flex; align-items: center; justify-content: center;">
+           <img src="Logo.png" alt="NexFlow Logo" style="height: 30px; width: auto;">
+           <span style="margin-left: 10px;">NexFlow</span>
+         </div>
+       </div>
+       <p>Fast, Personalized, Precise Insulin Insights</p>
+     </div>
+     <div class="footer-links">
+       <h4>Contact</h4>
+       <ul style="list-style: none; padding: 0; margin: 0;">
+         <li><a href="mailto:nexus@nex-flow.online">nexus@nex-flow.online</a></li>
+         <li>Atlanta, GA</li>
+       </ul>
+     </div>
+   </div>
  </div>
- </div>
- <p>Fast, Personalized, Precise Insulin Insights</p>
- </div>
- <div class="footer-links">
- <h4>Company</h4>
- <ul>
- <li><a href="#">About Us</a></li>
- <li><a href="#">Careers</a></li>
- <li><a href="#">Blog</a></li>
- <li><a href="#">Press</a></li>
- </ul>
- </div>
- <div class="footer-links">
- <h4>Product</h4>
- <ul>
- <li><a href="#">Features</a></li>
- <li><a href="#">Pricing</a></li>
- <li><a href="#">Integrations</a></li>
- <li><a href="#">FAQ</a></li>
- </ul>
- </div>
- <div class="footer-links">
- <h4>Resources</h4>
- <ul>
- <li><a href="#">Documentation</a></li>
- <li><a href="#">Support</a></li>
- <li><a href="#">Community</a></li>
- <li><a href="#">Research</a></li>
- </ul>
- </div>
- <div class="footer-links">
- <h4>Contact</h4>
- <ul>
- <li><a href="mailto:nexus@nex-flow.online">nexus@nex-flow.online</a></li>
- <li><a href="#">Atlanta, GA</a></li>
- </ul>
- </div>
- </div>
- <div class="footer-bottom">
- <div class="footer-copyright">
- © 2025 NexFlow. All rights reserved.
- </div>
- <div class="footer-social">
- <a href="#">Twitter</a>
- <a href="#">LinkedIn</a>
- <a href="#">Instagram</a>
- </div>
- </div>
- </div>
- </footer>
+</footer>
+
+</body>
 </html>
