@@ -541,35 +541,62 @@
  color: #ef4444;
  }
 
+ @media (max-width: 1024px) {
+  .features {
+    grid-template-columns: 1fr 1fr;
+  }
+  .team-grid {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+ }
  @media (max-width: 768px) {
- .header-content {
- flex-direction: column;
- gap: 1rem;
- text-align: center;
+  .features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .hero {
+    padding: 3rem 0 2rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .team-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .feature-card img {
+    height: 180px;
+  }
+  .waitlist-form {
+    padding: 1rem;
+  }
  }
-
- .nav {
- flex-direction: column;
- gap: 1rem;
- }
-
- .hero h1 {
- font-size: 2.5rem;
- }
-
- .workflow-step, .workflow-step:nth-child(even) {
- flex-direction: column;
- }
-
- .pricing-card.popular {
- transform: none;
- }
-
- .footer-bottom {
- flex-direction: column;
- gap: 1rem;
- text-align: center;
- }
+ @media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .hero {
+    padding: 2rem 0 1rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .feature-card img {
+    height: 120px;
+  }
+  .waitlist-form {
+    padding: 0.5rem;
+  }
+  .container {
+    padding: 0 0.5rem;
+  }
  }
 
  /* Custom NexFlow Styles */
@@ -813,7 +840,7 @@
  <h1>Accurate, Personalized Diabetes Insights</h1>
  <p>The world's first real-time, AI-powered platform to detect and reverse insulin resistance—the earliest known predictor of Type 2 Diabetes.</p>
  <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center;">
-  <a href="#join-waitlist-form-section" class="cta-button">Apply for a Job</a>
+  <a href="#join-waitlist-form-section" class="cta-button">Apply for a J*b</a>
   <a href="https://calendly.com/arjundixit3508/30min" class="cta-button" target="_blank">Book a Meeting</a>
 </div>
  </div>
@@ -1008,8 +1035,8 @@
 <section class="section" id="join-waitlist-form-section">
   <div class="container">
     <div class="section-title">
-      <h2>Apply for a Job</h2>
-      <p>Be the first to know when NexFlow launches and get exclusive early access.</p>
+      <h2>Apply for a J*b</h2>
+      <p>Tell us about yourself and why you want to join the NexFlow team.</p>
     </div>
     <form action="https://submit-form.com/K9AikUH27" method="POST" class="waitlist-form">
       <div>
