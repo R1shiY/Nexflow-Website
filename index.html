@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+chan<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
@@ -90,8 +90,8 @@
  }
 
  header {
- position: sticky;
- top: 0;
+ /* position: sticky; */
+ /* top: 0; */
  z-index: 100;
  background-color: var(--white);
  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
@@ -184,6 +184,7 @@
  display: flex;
  gap: 1rem;
  justify-content: center;
+ align-items: center;
 }
 
 .hero-buttons .cta-button {
@@ -191,7 +192,22 @@
 }
 
  .section {
- padding: 3.5rem 0; /* Reduced padding */
+ padding: 3.5rem 0;
+ position: relative;
+ }
+
+ .section:not(:first-of-type)::before {
+ content: '';
+ display: block;
+ position: absolute;
+ top: 0;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 90%;
+ height: 1px;
+ background: linear-gradient(90deg, rgba(0,0,0,0), #e6e0f0 60%, rgba(0,0,0,0));
+ opacity: 0.5;
+ z-index: 1;
  }
 
  .section-title {
@@ -215,6 +231,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  justify-items: center;
 }
 
 .feature-card {
@@ -313,7 +330,7 @@
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
  .team-member {
@@ -550,10 +567,40 @@
     gap: 1.5rem;
   }
  }
- @media (max-width: 768px) {
+ @media (max-width: 700px) {
+  .container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .features {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+    justify-items: center;
+  }
+  .team-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .footer-content {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
+    padding: 1.5rem 0 1rem 0;
+    margin-top: 2rem;
+    align-items: center;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .waitlist-form {
+    padding: 1rem;
+    align-items: center;
   }
   .hero {
     padding: 3rem 0 2rem;
@@ -562,16 +609,8 @@
     flex-direction: column;
     gap: 0.75rem;
   }
-  .team-grid {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
   .feature-card img {
     height: 180px;
-  }
-  .waitlist-form {
-    padding: 1rem;
   }
  }
  @media (max-width: 480px) {
@@ -587,15 +626,18 @@
   .hero-buttons {
     flex-direction: column;
     gap: 0.5rem;
+    align-items: center;
   }
   .feature-card img {
     height: 120px;
   }
   .waitlist-form {
     padding: 0.5rem;
+    align-items: center;
   }
   .container {
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
+    align-items: center;
   }
  }
 
@@ -636,15 +678,15 @@
 }
 
 .waitlist-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
   max-width: 500px;
   margin: 0 auto;
   background-color: var(--white);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .waitlist-form-label {
@@ -786,34 +828,6 @@
     padding: 0.75rem 1rem 1rem 1rem;
   }
 }
-
-/* Footer Centering and Spacing */
-.footer-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 5rem;
-  text-align: center;
-  flex-wrap: wrap;
-  padding: 2.5rem 0 2rem 0;
-  border-top: 1px solid #eee;
-  margin-top: 3rem;
-}
-.footer-logo {
-  margin-bottom: 0.5rem;
-}
-.footer-links ul {
-  margin-top: 0.5rem;
-}
-@media (max-width: 700px) {
-  .footer-content {
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.5rem 0 1rem 0;
-    margin-top: 2rem;
-  }
-}
 </style>
 </head>
 <body>
@@ -844,6 +858,29 @@
 </div>
  </div>
  </section>
+
+ <section class="section" id="industry-metrics">
+ <div class="container">
+   <div class="section-title">
+     <h2>Industry Leading Metrics</h2>
+     <p>NexFlow is working with leading faculty from Harvard and Emory, leveraging the latest in biomedical research and AI. Our team brings together world-class expertise to deliver actionable, real-time insights for metabolic health. Clinical Study in development at Emory University.</p>
+   </div>
+   <div class="metrics">
+     <div class="metric">
+       <div class="metric-value">3+</div>
+       <div class="metric-label">Top-20 University Collaborations</div>
+     </div>
+     <div class="metric">
+       <div class="metric-value">6+</div>
+       <div class="metric-label">Intern Papers in Development for Validation</div>
+     </div>
+     <div class="metric">
+       <div class="metric-value">20+</div>
+       <div class="metric-label">LOIs from Clinicians/Doctors</div>
+     </div>
+   </div>
+ </div>
+</section>
 
  <section class="section" id="problem">
  <div class="container">
@@ -966,29 +1003,6 @@
  </tr>
  </tbody>
  </table>
- </div>
- </section>
-
- <section class="section" id="market">
- <div class="container">
- <div class="section-title">
- <h2>Market Opportunity</h2>
- <p>NexFlow addresses a massive and growing market of individuals at risk for metabolic disorders.</p>
- </div>
- <div class="metrics">
- <div class="metric">
- <div class="metric-value">$20M</div>
- <div class="metric-label">Target Market</div>
- </div>
- <div class="metric">
- <div class="metric-value">$376M</div>
- <div class="metric-label">Serviceable Addressable Market</div>
- </div>
- <div class="metric">
- <div class="metric-value">$940M</div>
- <div class="metric-label">Total Addressable Market</div>
- </div>
- </div>
  </div>
  </section>
 
